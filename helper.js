@@ -12,7 +12,7 @@ Handlebars.registerHelper('select_box', function(field) {
     return html_options.push("<option" + selected + ">" + option + "</option>");
   });
   html = "<select class='form-control' name='" + field + "'>" + (html_options.join('')) + "</select>"
-  return Handlebars.SafeString(html);
+  return new Handlebars.SafeString(html);
 });
 
 Handlebars.registerHelper('check_box', function(field) {
@@ -23,5 +23,5 @@ Handlebars.registerHelper('check_box', function(field) {
   capitalizedField = field.charAt(0).toUpperCase() + field.slice(1);
   checked = this[field] === 'true' ? ' checked' : '';
   html = "<label><input name='" + field + "' type='hidden' value='false'><input name='" + field + "' type='checkbox' value='true' " + checked + ">" + capitalizedField + "</label>";
-  return Handlebars.SafeString(html);
+  return new Handlebars.SafeString(html);
 });
