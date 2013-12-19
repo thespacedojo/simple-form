@@ -9,7 +9,7 @@ Handlebars.registerHelper('select_box', function(field) {
   _.each(this[options](), function(option) {
     var selected;
     selected = _this[field] === option ? ' selected' : '';
-    return html_options.push("<option" + selected + ">" + option + "</option>");
+    return html_options.push("<option value='" + option + "'" + selected + ">" + _.humanize(option) + "</option>");
   });
   html = "<select class='form-control' name='" + field + "'>" + (html_options.join('')) + "</select>"
   return new Handlebars.SafeString(html);
