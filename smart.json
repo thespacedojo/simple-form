@@ -3,7 +3,7 @@
   "description": "A meteorite package that makes building dynamic two way forms easy (uses bootstrap markup)",
   "homepage": "https://github.com/BeDifferential/simple-form",
   "author": "Differential (http://differential.io)",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "git": "https://github.com/BeDifferential/simple-form.git",
   "packages": {
   }
