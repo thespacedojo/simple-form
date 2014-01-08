@@ -1,12 +1,17 @@
-Handlebars.registerHelper('select_box', function(field) {
-  var html_options, options,
+Handlebars.registerHelper('select_box', function(field, options) {
+  var html_options,
   _this = this;
   if (!field) {
     return;
   }
-  options = "" + field + "Options";
+
+  if (options.hash.optionValues && options.hash.optionValues.length > 0) {
+    optionsValues = options.hash.optionValues
+  } else {
+    optionsValues = _this["" + field + "Options"]();
+  }
   html_options = [];
-  _.each(this[options](), function(option) {
+  _.each(optionsValues, function(option) {
     var selected;
     selected = _this[field] === option ? ' selected' : '';
     return html_options.push("<option value='" + option + "'" + selected + ">" + _.humanize(option) + "</option>");
