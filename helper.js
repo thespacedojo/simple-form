@@ -25,8 +25,7 @@ Handlebars.registerHelper('check_box', function(field) {
   if (!field) {
     return;
   }
-  capitalizedField = field.charAt(0).toUpperCase() + field.slice(1);
   checked = this[field] === 'true' ? ' checked' : '';
-  html = "<label><input name='" + field + "' type='hidden' value='false'><input name='" + field + "' type='checkbox' value='true' " + checked + ">" + capitalizedField + "</label>";
+  html = "<label><input name='" + field + "' type='hidden' value='false'><input name='" + field + "' type='checkbox' value='true' " + checked + ">" + _.humanize(field) + "</label>";
   return new Handlebars.SafeString(html);
 });
