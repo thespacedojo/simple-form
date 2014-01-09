@@ -5,6 +5,12 @@ Handlebars.registerHelper('select_box', function(field, options) {
     return;
   }
 
+  if (options.hash['class']) {
+    html_class = " " + options.hash['class']
+  } else {
+    html_class = ""
+  }
+
   if (options.hash.optionValues && options.hash.optionValues.length > 0) {
     optionsValues = options.hash.optionValues
   } else {
@@ -16,7 +22,7 @@ Handlebars.registerHelper('select_box', function(field, options) {
     selected = _this[field] === option ? ' selected' : '';
     return html_options.push("<option value='" + option + "'" + selected + ">" + _.humanize(option) + "</option>");
   });
-  html = "<select class='form-control' name='" + field + "'>" + (html_options.join('')) + "</select>"
+  html = "<select class='form-control" + html_class + "' name='" + field + "'>" + (html_options.join('')) + "</select>"
   return new Handlebars.SafeString(html);
 });
 
