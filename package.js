@@ -3,6 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function(api) {
-  api.use(['handlebars'], 'client');
-  api.add_files(['helper.js'], 'client');
+  api.use(['handlebars', 'underscore'], 'client');
+  api.add_files(['helper.js', 'simpleform.js'], 'client');
+  api.export('SimpleForm', 'client');
 });
