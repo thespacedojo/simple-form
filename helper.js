@@ -30,7 +30,9 @@ Handlebars.registerHelper('text_field', function(field, options){
   }
   value = _this[field] || ""
   html_class = processClass(options.hash)
-  html = "<input type='text' id='" + field + "' name='"+ field +"' value='"+ value +"' class='form-control"+ html_class +"'>"
+  type = options.hash['type'] || "text"
+  debugger
+  html = "<input type='"+ type +"' id='" + field + "' name='"+ field +"' value='"+ value +"' class='form-control"+ html_class +"'>"
   label = buildLabel(options.hash, field)
   return new Handlebars.SafeString(label + html);
 });
