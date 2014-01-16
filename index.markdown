@@ -65,8 +65,8 @@ Note: We have generated proper html with labels that point to the right fields. 
 
 ### Implemented
 
-* Text fields
-* Select boxes
+* ~~Text fields~~
+* ~~Select boxes~~
 * Check boxes
 * Form processor
 
