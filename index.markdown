@@ -25,16 +25,19 @@ mrt add simple-form
 
 ### On the client
 
+{% assign text1 = '{{text_field 'name'}}' %}
+{% assign text2 = '{{text_field 'address' label='Street Address'}}' %}
+
 {% highlight html %}
 <fieldset>
   <legend>Property Location</legend>
   <div class="form-group">
-    {{text_field 'name'}}
+    {{ text1 }}
   </div>
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        {{text_field 'address' label='Street Address'}}
+        {{ text2 }}
       </div>
     </div>
   </div>
