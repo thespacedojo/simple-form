@@ -50,12 +50,14 @@ This will output:
 <fieldset>
   <legend>Property Location</legend>
   <div class="form-group">
-    <label for="name">Name</label><input type="text" id="name" name="name" value="" class="form-control">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" value="" class="form-control">
   </div>
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="address">Street Address</label><input type="text" id="address" name="address" value="" class="form-control">
+        <label for="address">Street Address</label>
+        <input type="text" id="address" name="address" value="" class="form-control">
       </div>
     </div>
   </div>
