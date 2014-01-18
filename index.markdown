@@ -25,8 +25,8 @@ mrt add simple-form
 
 ### On the client
 
-{% assign text1 = '{{text_field 'name'}}' %}
-{% assign text2 = '{{text_field 'address' label='Street Address'}}' %}
+{% assign text1 = "{{text_field 'name'}}" %}
+{% assign text2 = "{{text_field 'address' label='Street Address'}}" %}
 
 {% highlight html %}
 <fieldset>
