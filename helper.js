@@ -8,7 +8,7 @@ processClass = function(optionsHash) {
 }
 
 processLabel = function(optionsHash, field) {
-  if (optionsHash['label']) {
+  if (_.isString(optionsHash['label'])) {
     label_words = optionsHash['label']
   } else {
     label_words = _.humanize(field)
@@ -36,6 +36,23 @@ Handlebars.registerHelper('text_field', function(field, options){
   return new Handlebars.SafeString(label + html);
 });
 
+Handlebars.registerHelper('text_area', function(field, options){
+  var _this = this;
+  if (!field) {
+    return;
+  }
+  value = _this[field] || ""
+  html_class = processClass(options.hash)
+  if (options.hash['rows']) {
+    rows = "rows='"+ options.hash['rows'] +"' "
+  } else {
+    rows = ""
+  }
+
+  html = "<textarea id='" + field + "' "+ rows +"name='"+ field +"' class='form-control"+ html_class +"'>"+ value +"</textarea>"
+  label = buildLabel(options.hash, field)
+  return new Handlebars.SafeString(label + html);
+});
 
 Handlebars.registerHelper('select_box', function(field, options) {
   var html_options,
