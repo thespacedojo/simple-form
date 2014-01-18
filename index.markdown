@@ -71,11 +71,11 @@ Note: We have generated proper html with labels that point to the right fields. 
 * Text field
 * Select boxes
 * Check boxes
+* Text areas
 * Form processor
 
 ### Future Plans
 
-* Text areas
 * Radio buttons
 * Multiple select boxes with choices saved off just below
 * Possible form block level helper, if needed {{#simpleForm}}
