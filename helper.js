@@ -17,8 +17,12 @@ processLabel = function(optionsHash, field) {
 }
 
 buildLabel = function(optionsHash, field) {
-  label_words = processLabel(optionsHash, field)
-  return "<label for='"+ field +"'>" + label_words + "</label>"
+  if (optionsHash['label'] === false) {
+    return ''
+  } else {
+    label_words = processLabel(optionsHash, field)
+    return "<label for='"+ field +"'>" + label_words + "</label>"
+  }
 }
 
 /*----- HELPERS ------*/
