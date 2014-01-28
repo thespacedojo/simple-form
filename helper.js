@@ -7,6 +7,15 @@ processClass = function(optionsHash) {
   return html_class
 }
 
+processPlaceHolder = function(optionsHash) {
+  if (optionsHash['placeholder']) {
+    placeholder = " placeholder='" + optionsHash['placeholder'] + "' "
+  } else {
+    placeholder = ""
+  }
+  return placeholder
+}
+
 processLabel = function(optionsHash, field) {
   if (_.isString(optionsHash['label'])) {
     label_words = optionsHash['label']
@@ -35,7 +44,8 @@ Handlebars.registerHelper('text_field', function(field, options){
   value = _this[field] || ""
   html_class = processClass(options.hash)
   type = options.hash['type'] || "text"
-  html = "<input type='"+ type +"' id='" + field + "' name='"+ field +"' value='"+ value +"' class='form-control"+ html_class +"'>"
+  placeholder = processPlaceHolder(options.hash)
+  html = "<input type='"+ type +"' id='" + field + "' name='"+ field +"' value='"+ value +"' class='form-control"+ html_class +"'"+ placeholder +">"
   label = buildLabel(options.hash, field)
   return new Handlebars.SafeString(label + html);
 });
