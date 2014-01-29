@@ -106,3 +106,13 @@ Handlebars.registerHelper('check_box', function(field) {
   html = "<label for='"+ field +"'><input id='"+ field +"' name='" + field + "' type='hidden' value='false'><input name='" + field + "' class='"+ html_class +"' type='checkbox' value='true' " + checked + ">" + label + "</label>";
   return new Handlebars.SafeString(html);
 });
+
+Handlebars.registerHelper('submit_button', function(text, options){
+  var _this = this;
+  klass = _this.constructor.name
+  value = text || "Submit " + klass
+  html_class = processClass(options.hash)
+  html = "<input type='submit' value='"+ value +"' class='btn btn-default"+ html_class +"'>"
+  label = buildLabel(options.hash, field)
+  return new Handlebars.SafeString(label + html);
+});
