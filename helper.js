@@ -113,6 +113,5 @@ Handlebars.registerHelper('submit_button', function(text, options){
   value = text || "Submit " + klass
   html_class = processClass(options.hash)
   html = "<input type='submit' value='"+ value +"' class='btn btn-default"+ html_class +"'>"
-  label = buildLabel(options.hash, field)
-  return new Handlebars.SafeString(label + html);
+  return new Handlebars.SafeString(html);
 });
