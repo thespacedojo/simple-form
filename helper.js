@@ -75,6 +75,7 @@ Handlebars.registerHelper('select_box', function(field, options) {
     return;
   }
 
+  associationOptions = processForBelongsTo(field)
   html_class = processClass(options.hash)
 
   if (options.hash.optionValues && options.hash.optionValues.length > 0) {
@@ -95,7 +96,7 @@ Handlebars.registerHelper('select_box', function(field, options) {
 });
 
 
-Handlebars.registerHelper('check_box', function(field) {
+Handlebars.registerHelper('check_box', function(field, options) {
   var capitalizedField, checked;
   if (!field) {
     return;
