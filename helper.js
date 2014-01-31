@@ -34,6 +34,21 @@ buildLabel = function(optionsHash, field) {
   }
 }
 
+processForBelongsTo = function(field, object) {
+  name = object.constructor.name
+  isAssociation = _.contains(_.pluck(window[name].belongs_to, 'name'), field)
+  if (isAssociation) {
+    associations = window[_.classify(field)].all()
+    var array = [];
+    _.each(associations, function(association) {
+      array.push({value: association._id, name: association.name})
+    })
+    return array
+  } else {
+    return false
+  }
+}
+
 /*----- HELPERS ------*/
 
 Handlebars.registerHelper('text_field', function(field, options){
@@ -69,29 +84,36 @@ Handlebars.registerHelper('text_area', function(field, options){
 });
 
 Handlebars.registerHelper('select_box', function(field, options) {
-  var html_options,
   _this = this;
+  optionsValues = undefined
   if (!field) {
     return;
   }
 
-  associationOptions = processForBelongsTo(field)
+  associationOptions = processForBelongsTo(field, _this)
   html_class = processClass(options.hash)
 
-  if (options.hash.optionValues && options.hash.optionValues.length > 0) {
-    optionsValues = options.hash.optionValues
+  if (associationOptions) {
+    optionsValues = associationOptions
+    dbField = field + "_id"
   } else {
-    optionsValues = _this["" + field + "Options"]();
+    dbField = field
+    if (options.hash.optionValues && options.hash.optionValues.length > 0) {
+      optionsValues = options.hash.optionValues
+    } else {
+      optionsValues = _this["" + field + "Options"]();
+    }
   }
 
   html_options = [];
   _.each(optionsValues, function(option) {
-    var selected;
-    selected = _this[field] === option ? ' selected' : '';
-    return html_options.push("<option value='" + option + "'" + selected + ">" + _.humanize(option) + "</option>");
+    name = option.name || _.humanize(option)
+    value = option.value || option
+    selected = _this[field] === value ? ' selected' : '';
+    return html_options.push("<option value='" + value + "'" + selected + ">" + name + "</option>");
   });
-  html = "<select class='form-control" + html_class + "' name='" + field + "'>" + (html_options.join('')) + "</select>"
-  label = buildLabel(options.hash, field)
+  html = "<select class='form-control" + html_class + "' name='" + dbField + "'>" + (html_options.join('')) + "</select>"
+  label = buildLabel(options.hash, dbField)
   return new Handlebars.SafeString(label + html);
 });
 
