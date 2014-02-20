@@ -81,6 +81,7 @@ processForBelongsTo = function(field, object) {
 }
 
 processForHaBTM = function(field, object) {
+  return
   name = object.constructor.name
   isAssociation = _.contains(_.pluck(window[name].has_and_belongs_to_many, 'name'), field)
   if (isAssociation) {
