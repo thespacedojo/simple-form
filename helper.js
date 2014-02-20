@@ -81,7 +81,6 @@ processForBelongsTo = function(field, object) {
 }
 
 processForHaBTM = function(field, object) {
-  return
   name = object.constructor.name
   isAssociation = _.contains(_.pluck(window[name].has_and_belongs_to_many, 'name'), field)
   if (isAssociation) {
@@ -97,6 +96,7 @@ processForHaBTM = function(field, object) {
 }
 
 buildAssociationCheckboxes = function(field, object, checkboxes, options) {
+  return false
   builtCheckboxes = _.map(checkboxes, function(checkbox) {
     html_class = processClass(options.hash)
     checked = _.contains(object[_.singularize(field) + '_ids'], checkbox.value) === true ? ' checked' : '';
