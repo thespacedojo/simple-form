@@ -67,6 +67,9 @@ buildAfterAddon = function(optionsHash) {
 
 processForBelongsTo = function(field, object) {
   name = object.constructor.name
+  if (!window[name] && !window[name].belongs_to) {
+    return false
+  }
   isAssociation = _.contains(_.pluck(window[name].belongs_to, 'name'), field)
   if (isAssociation) {
     associations = window[_.classify(field)].all()
@@ -82,6 +85,9 @@ processForBelongsTo = function(field, object) {
 
 processForHaBTM = function(field, object) {
   name = object.constructor.name
+  if (!window[name] && !window[name].has_and_belongs_to_many) {
+    return false
+  }
   isAssociation = _.contains(_.pluck(window[name].has_and_belongs_to_many, 'name'), field)
   if (isAssociation) {
     associations = window[_.classify(_.singularize(field))].all()
