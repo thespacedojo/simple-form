@@ -34,6 +34,37 @@ buildLabel = function(optionsHash, field) {
   }
 }
 
+buildHintBlock = function(optionsHash) {
+  if (optionsHash['hint']) {
+    hintBlock = "<span class='help-block'>" + optionsHash['hint'] + "</span>";
+  } else {
+    hintBlock = "";
+  }
+  return hintBlock;
+}
+
+buildBeforeAddon = function(optionsHash) {
+  addon = ""
+  if (optionsHash['before'] || optionsHash['after']) {
+    addon = "<div class='input-group'>"
+    if (optionsHash['before']) {
+      addon = addon + "<span class='input-group-addon'>" + optionsHash['before'] + "</span>"
+    }
+  }
+  return addon
+}
+
+buildAfterAddon = function(optionsHash) {
+  addon = ""
+  if (optionsHash['before'] || optionsHash['after']) {
+    if (optionsHash['after']) {
+      addon = "<span class='input-group-addon'>" + optionsHash['after'] + "</span>"
+    }
+    addon = addon + "</div>"
+  }
+  return addon
+}
+
 processForBelongsTo = function(field, object) {
   name = object.constructor.name
   isAssociation = _.contains(_.pluck(window[name].belongs_to, 'name'), field)
@@ -49,6 +80,32 @@ processForBelongsTo = function(field, object) {
   }
 }
 
+processForHaBTM = function(field, object) {
+  name = object.constructor.name
+  isAssociation = _.contains(_.pluck(window[name].has_and_belongs_to_many, 'name'), field)
+  if (isAssociation) {
+    associations = window[_.classify(_.singularize(field))].all()
+    var array = [];
+    _.each(associations, function(association) {
+      array.push({value: association._id, name: association.name})
+    })
+    return array
+  } else {
+    return false
+  }
+}
+
+buildAssociationCheckboxes = function(field, object, checkboxes, options) {
+  builtCheckboxes = _.map(checkboxes, function(checkbox) {
+    html_class = processClass(options.hash)
+    checked = _.contains(object[_.singularize(field) + '_ids'], checkbox.value) === true ? ' checked' : '';
+    label = processLabel(options.hash, checkbox.name)
+    html = "<label for='"+ checkbox.name +"'><input id='"+ checkbox.name +"' name='" + checkbox.name + "' type='hidden' value='false'><input name='" + checkbox.name + "' class='"+ html_class +"' type='checkbox' value='" + checkbox.value + "' " + checked + ">" + label + "</label>";
+    return html;
+  });
+  return new Handlebars.SafeString(builtCheckboxes.join(' '));
+}
+
 /*----- HELPERS ------*/
 
 Handlebars.registerHelper('text_field', function(field, options){
@@ -62,7 +119,10 @@ Handlebars.registerHelper('text_field', function(field, options){
   placeholder = processPlaceHolder(options.hash)
   html = "<input type='"+ type +"' id='" + field + "' name='"+ field +"' value='"+ value +"' class='form-control"+ html_class +"'"+ placeholder +">"
   label = buildLabel(options.hash, field)
-  return new Handlebars.SafeString(label + html);
+  hint = buildHintBlock(options.hash)
+  beforeAddon = buildBeforeAddon(options.hash)
+  afterAddon = buildAfterAddon(options.hash)
+  return new Handlebars.SafeString(label + beforeAddon + html + afterAddon + hint);
 });
 
 Handlebars.registerHelper('text_area', function(field, options){
@@ -80,7 +140,8 @@ Handlebars.registerHelper('text_area', function(field, options){
 
   html = "<textarea id='" + field + "' "+ rows +"name='"+ field +"' class='form-control"+ html_class +"'>"+ value +"</textarea>"
   label = buildLabel(options.hash, field)
-  return new Handlebars.SafeString(label + html);
+  hint = buildHintBlock(options.hash)
+  return new Handlebars.SafeString(label + html + hint);
 });
 
 Handlebars.registerHelper('select_box', function(field, options) {
@@ -114,7 +175,8 @@ Handlebars.registerHelper('select_box', function(field, options) {
   });
   html = "<select class='form-control" + html_class + "' name='" + dbField + "'>" + (html_options.join('')) + "</select>"
   label = buildLabel(options.hash, dbField)
-  return new Handlebars.SafeString(label + html);
+  hint = buildHintBlock(options.hash)
+  return new Handlebars.SafeString(label + html + hint);
 });
 
 
@@ -123,11 +185,17 @@ Handlebars.registerHelper('check_box', function(field, options) {
   if (!field) {
     return;
   }
-  html_class = processClass(options.hash)
-  checked = this[field] === 'true' ? ' checked' : '';
-  label = processLabel(options.hash, field)
-  html = "<label for='"+ field +"'><input id='"+ field +"' name='" + field + "' type='hidden' value='false'><input name='" + field + "' class='"+ html_class +"' type='checkbox' value='true' " + checked + ">" + label + "</label>";
-  return new Handlebars.SafeString(html);
+  associationOptions = processForHaBTM(field, this)
+  if (associationOptions) {
+    return buildAssociationCheckboxes(field, this, associationOptions, options)
+  } else {
+    html_class = processClass(options.hash)
+    checked = this[field] === 'true' ? ' checked' : '';
+    label = processLabel(options.hash, field)
+    html = "<label for='"+ field +"'><input id='"+ field +"' name='" + field + "' type='hidden' value='false'><input name='" + field + "' class='"+ html_class +"' type='checkbox' value='true' " + checked + ">" + label + "</label>";
+    hint = buildHintBlock(options.hash)
+    return new Handlebars.SafeString(html + hint);
+  }
 });
 
 Handlebars.registerHelper('submit_button', function(text, options){
@@ -139,6 +207,10 @@ Handlebars.registerHelper('submit_button', function(text, options){
   klass = _this.constructor.name;
   value = text || "Submit " + klass;
   html_class = processClass(options.hash);
-  html = "<input type='submit' value='"+ value +"' class='btn btn-default"+ html_class +"'>";
+  if (options.hash['button']) {
+    html = "<button type='submit' class='btn btn-default"+ html_class +"'>" + value + "</button>";
+  } else {
+    html = "<input type='submit' value='"+ value +"' class='btn btn-default"+ html_class +"'>";
+  }
   return new Handlebars.SafeString(html);
 });
