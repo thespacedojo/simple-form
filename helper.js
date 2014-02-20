@@ -67,7 +67,7 @@ buildAfterAddon = function(optionsHash) {
 
 processForBelongsTo = function(field, object) {
   name = object.constructor.name
-  if (!window[name] && !window[name].belongs_to) {
+  if (!window[name]) {
     return false
   }
   isAssociation = _.contains(_.pluck(window[name].belongs_to, 'name'), field)
@@ -85,7 +85,7 @@ processForBelongsTo = function(field, object) {
 
 processForHaBTM = function(field, object) {
   name = object.constructor.name
-  if (!window[name] && !window[name].has_and_belongs_to_many) {
+  if (!window[name]) {
     return false
   }
   isAssociation = _.contains(_.pluck(window[name].has_and_belongs_to_many, 'name'), field)
@@ -192,7 +192,7 @@ Handlebars.registerHelper('check_box', function(field, options) {
   if (!field) {
     return;
   }
-  associationOptions = processForHaBTM(field, this)
+  associationOptions = null//processForHaBTM(field, this)
   if (associationOptions) {
     return buildAssociationCheckboxes(field, this, associationOptions, options)
   } else {
