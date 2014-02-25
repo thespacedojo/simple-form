@@ -7,6 +7,14 @@ processClass = function(optionsHash) {
   return html_class
 }
 
+processId = function(optionsHash) {
+  if (optionsHash['id']) {
+    return " id='" + optionsHash['id'] + "'";
+  } else {
+    return ""
+  }
+}
+
 processPlaceHolder = function(optionsHash) {
   if (optionsHash['placeholder']) {
     placeholder = " placeholder='" + optionsHash['placeholder'] + "' "
@@ -214,10 +222,11 @@ Handlebars.registerHelper('submit_button', function(text, options){
   klass = _this.constructor.name;
   value = text || "Submit " + klass;
   html_class = processClass(options.hash);
+  html_id = processId(options.hash);
   if (options.hash['button']) {
-    html = "<button type='submit' class='btn btn-default"+ html_class +"'>" + value + "</button>";
+    html = "<button type='submit' class='btn btn-default"+ html_class + "'"+ html_id +">" + value + "</button>";
   } else {
-    html = "<input type='submit' value='"+ value +"' class='btn btn-default"+ html_class +"'>";
+    html = "<input type='submit' value='"+ value +"' class='btn btn-default"+ html_class + "'"+ html_id +">";
   }
   return new Handlebars.SafeString(html);
 });
