@@ -7,6 +7,14 @@ processClass = function(optionsHash) {
   return html_class
 }
 
+processRequired = function(optionHash) {
+  if (optionHash['required']) {
+    return " required"
+  } else {
+    return ""
+  }
+}
+
 processId = function(optionsHash) {
   if (optionsHash['id']) {
     return " id='" + optionsHash['id'] + "'";
@@ -132,7 +140,8 @@ Handlebars.registerHelper('text_field', function(field, options){
   html_class = processClass(options.hash)
   type = options.hash['type'] || "text"
   placeholder = processPlaceHolder(options.hash)
-  html = "<input type='"+ type +"' id='" + field + "' name='"+ field +"' value='"+ value +"' class='form-control"+ html_class +"'"+ placeholder +">"
+  required = processRequired(options.hash)
+  html = "<input type='"+ type +"' id='" + field + "' name='"+ field +"' value='"+ value +"' class='form-control"+ html_class +"'"+ placeholder + required + " >"
   label = buildLabel(options.hash, field)
   hint = buildHintBlock(options.hash)
   beforeAddon = buildBeforeAddon(options.hash)
@@ -153,7 +162,8 @@ Handlebars.registerHelper('text_area', function(field, options){
     rows = ""
   }
 
-  html = "<textarea id='" + field + "' "+ rows +"name='"+ field +"' class='form-control"+ html_class +"'>"+ value +"</textarea>"
+  required = processRequired(options.hash)
+  html = "<textarea id='" + field + "' "+ rows +"name='"+ field +"' class='form-control"+ html_class +"'" + required + ">"+ value +"</textarea>"
   label = buildLabel(options.hash, field)
   hint = buildHintBlock(options.hash)
   return new Handlebars.SafeString(label + html + hint);
@@ -181,6 +191,7 @@ Handlebars.registerHelper('select_box', function(field, options) {
     }
   }
 
+  required = processRequired(options.hash)
   html_options = [];
   _.each(optionsValues, function(option) {
     name = option.name || _.humanize(option)
@@ -188,7 +199,7 @@ Handlebars.registerHelper('select_box', function(field, options) {
     selected = _this[field] === value ? ' selected' : '';
     return html_options.push("<option value='" + value + "'" + selected + ">" + name + "</option>");
   });
-  html = "<select class='form-control" + html_class + "' name='" + dbField + "'>" + (html_options.join('')) + "</select>"
+  html = "<select class='form-control" + html_class + "' name='" + dbField + "'" + required + ">" + (html_options.join('')) + "</select>"
   label = buildLabel(options.hash, dbField)
   hint = buildHintBlock(options.hash)
   return new Handlebars.SafeString(label + html + hint);
@@ -207,7 +218,8 @@ Handlebars.registerHelper('check_box', function(field, options) {
     html_class = processClass(options.hash)
     checked = this[field] === 'true' ? ' checked' : '';
     label = processLabel(options.hash, field)
-    html = "<label for='"+ field +"'><input id='"+ field +"' name='" + field + "' type='hidden' value='false'><input name='" + field + "' class='"+ html_class +"' type='checkbox' value='true' " + checked + ">" + label + "</label>";
+    required = processRequired(options.hash)
+    html = "<label for='"+ field +"'><input id='"+ field +"' name='" + field + "' type='hidden' value='false'><input name='" + field + "' class='"+ html_class +"' type='checkbox' value='true' " + checked + required + ">" + label + "</label>";
     hint = buildHintBlock(options.hash)
     return new Handlebars.SafeString(html + hint);
   }
