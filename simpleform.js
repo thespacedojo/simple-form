@@ -6,6 +6,9 @@ SimpleForm = {
       return form[formItem.name] = formItem.value;
     });
     return form;
+  },
+  resetForm: function(target){
+    $(target).trigger('reset')
   }
 };
 
