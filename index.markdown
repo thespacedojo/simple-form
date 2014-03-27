@@ -1,6 +1,6 @@
 ---
 layout: default
-username: BeDifferential
+username: Differential
 repo: simple-form
 desc: Simple form building and processing for MiniMongo (minimongoid) objects.
 
