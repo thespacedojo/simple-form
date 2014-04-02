@@ -126,12 +126,12 @@ buildAssociationCheckboxes = function(field, object, checkboxes, options) {
     html = "<label for='"+ checkbox.name +"'><input id='"+ checkbox.name +"' name='" + checkbox.name + "' type='hidden' value='false'><input name='" + checkbox.name + "' class='"+ html_class +"' type='checkbox' value='" + checkbox.value + "' " + checked + ">" + label + "</label>";
     return html;
   });
-  return new Handlebars.SafeString(builtCheckboxes.join(' '));
+  return new Spacebars.SafeString(builtCheckboxes.join(' '));
 }
 
 /*----- HELPERS ------*/
 
-Handlebars.registerHelper('text_field', function(field, options){
+UI.registerHelper('text_field', function(field, options){
   var _this = this;
   if (!field) {
     return;
@@ -146,10 +146,10 @@ Handlebars.registerHelper('text_field', function(field, options){
   hint = buildHintBlock(options.hash)
   beforeAddon = buildBeforeAddon(options.hash)
   afterAddon = buildAfterAddon(options.hash)
-  return new Handlebars.SafeString(label + beforeAddon + html + afterAddon + hint);
+  return new Spacebars.SafeString(label + beforeAddon + html + afterAddon + hint);
 });
 
-Handlebars.registerHelper('text_area', function(field, options){
+UI.registerHelper('text_area', function(field, options){
   var _this = this;
   if (!field) {
     return;
@@ -166,10 +166,10 @@ Handlebars.registerHelper('text_area', function(field, options){
   html = "<textarea id='" + field + "' "+ rows +"name='"+ field +"' class='form-control"+ html_class +"'" + required + ">"+ value +"</textarea>"
   label = buildLabel(options.hash, field)
   hint = buildHintBlock(options.hash)
-  return new Handlebars.SafeString(label + html + hint);
+  return new Spacebars.SafeString(label + html + hint);
 });
 
-Handlebars.registerHelper('select_box', function(field, options) {
+UI.registerHelper('select_box', function(field, options) {
   _this = this;
   optionsValues = undefined
   if (!field) {
@@ -202,11 +202,11 @@ Handlebars.registerHelper('select_box', function(field, options) {
   html = "<select class='form-control" + html_class + "' name='" + dbField + "'" + required + ">" + (html_options.join('')) + "</select>"
   label = buildLabel(options.hash, dbField)
   hint = buildHintBlock(options.hash)
-  return new Handlebars.SafeString(label + html + hint);
+  return new Spacebars.SafeString(label + html + hint);
 });
 
 
-Handlebars.registerHelper('check_box', function(field, options) {
+UI.registerHelper('check_box', function(field, options) {
   var capitalizedField, checked;
   if (!field) {
     return;
@@ -221,11 +221,11 @@ Handlebars.registerHelper('check_box', function(field, options) {
     required = processRequired(options.hash)
     html = "<label for='"+ field +"'><input id='"+ field +"' name='" + field + "' type='hidden' value='false'><input name='" + field + "' class='"+ html_class +"' type='checkbox' value='true' " + checked + required + ">" + label + "</label>";
     hint = buildHintBlock(options.hash)
-    return new Handlebars.SafeString(html + hint);
+    return new Spacebars.SafeString(html + hint);
   }
 });
 
-Handlebars.registerHelper('submit_button', function(text, options){
+UI.registerHelper('submit_button', function(text, options){
   var _this = this;
   if (text.hash) {
     options = text;
@@ -240,5 +240,5 @@ Handlebars.registerHelper('submit_button', function(text, options){
   } else {
     html = "<input type='submit' value='"+ value +"' class='btn btn-default"+ html_class + "'"+ html_id +">";
   }
-  return new Handlebars.SafeString(html);
+  return new Spacebars.SafeString(html);
 });
