@@ -1,4 +1,7 @@
 processClass = function(optionsHash) {
+  if (!optionsHash) {
+    return
+  }
   if (optionsHash['class']) {
     html_class = " " + optionsHash['class']
   } else {
@@ -16,6 +19,9 @@ processRequired = function(optionHash) {
 }
 
 processId = function(optionsHash) {
+  if (!optionsHash) {
+    return
+  }
   if (optionsHash['id']) {
     return " id='" + optionsHash['id'] + "'";
   } else {
@@ -227,7 +233,10 @@ UI.registerHelper('check_box', function(field, options) {
 
 UI.registerHelper('submit_button', function(text, options){
   var _this = this;
-  if (text.hash) {
+  if (!text && !options) {
+    options = {};
+  }
+  if (text && text.hash) {
     options = text;
     text = undefined;
   }
@@ -235,7 +244,7 @@ UI.registerHelper('submit_button', function(text, options){
   value = text || "Submit " + klass;
   html_class = processClass(options.hash);
   html_id = processId(options.hash);
-  if (options.hash['button']) {
+  if (options.hash && options.hash['button']) {
     html = "<button type='submit' class='btn btn-default"+ html_class + "'"+ html_id +">" + value + "</button>";
   } else {
     html = "<input type='submit' value='"+ value +"' class='btn btn-default"+ html_class + "'"+ html_id +">";
