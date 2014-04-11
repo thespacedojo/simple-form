@@ -93,6 +93,7 @@ processForBelongsTo = function(field, object) {
     return false
   }
   isAssociation = _.contains(_.pluck(window[name].belongs_to, 'name'), field)
+  debugger
   if (isAssociation) {
     associations = window[_.classify(field)].all()
     var array = [];
