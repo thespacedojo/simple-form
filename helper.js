@@ -185,6 +185,9 @@ UI.registerHelper('select_box', function(field, options) {
   associationOptions = processForBelongsTo(field, _this)
   html_class = processClass(options.hash)
 
+  console.log('Calling associationOptions')
+
+  console.log(associationOptions)
   if (associationOptions) {
     optionsValues = associationOptions
     dbField = field + "_id"
