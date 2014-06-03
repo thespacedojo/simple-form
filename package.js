@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function(api) {
-  api.use(['ui', 'underscore'], 'client');
+  api.use(['ui', 'underscore', 'underscore-string-latest'], 'client');
   api.add_files(['helper.js', 'simpleform.js'], 'client');
   api.export('SimpleForm', 'client');
 });
