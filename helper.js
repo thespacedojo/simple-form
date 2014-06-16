@@ -145,6 +145,9 @@ UI.registerHelper('text_field', function(field, options){
   value = _this[field] || ""
   html_class = processClass(options.hash)
   type = options.hash['type'] || "text"
+  if (type === "date" && value) {
+    value = value.getFullYear() + '-' + ('0' + (value.getMonth()+1)).slice(-2) + "-" + ('0' + value.getDate()).slice(-2)
+  }
   placeholder = processPlaceHolder(options.hash)
   required = processRequired(options.hash)
   html = "<input type='"+ type +"' id='" + field + "' name='"+ field +"' value='"+ value +"' class='form-control"+ html_class +"'"+ placeholder + required + " >"
