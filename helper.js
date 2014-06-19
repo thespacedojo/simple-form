@@ -145,7 +145,7 @@ UI.registerHelper('text_field', function(field, options){
   value = _this[field] || ""
   html_class = processClass(options.hash)
   type = options.hash['type'] || "text"
-  if (type === "date" && value) {
+  if (value && type === "date" && value.constructor === Date) {
     value = value.getFullYear() + '-' + ('0' + (value.getMonth()+1)).slice(-2) + "-" + ('0' + value.getDate()).slice(-2)
   }
   placeholder = processPlaceHolder(options.hash)

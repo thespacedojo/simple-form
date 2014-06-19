@@ -3,7 +3,12 @@ SimpleForm = {
     var form = {};
     array = $(target).serializeArray();
     _.each(array, function(formItem) {
-      return form[formItem.name] = formItem.value;
+      type = $(target).find("input[name='" + formItem.name + "']").attr('type')
+      if (type === 'date') {
+        return form[formItem.name] = new Date(formItem.value);
+      } else {
+        return form[formItem.name] = formItem.value;
+      }
     });
     return form;
   },
