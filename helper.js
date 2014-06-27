@@ -263,7 +263,12 @@ UI.registerHelper('submit_button', function(text, options){
     text = undefined;
   }
   klass = _this.constructor.name;
-  value = text || "Submit " + klass;
+  if (_this._id) {
+    actionWord = "Update "
+  } else {
+    actionWord = "Add "
+  }
+  value = text || actionWord + klass;
   html_class = processClass(options.hash);
   html_id = processId(options.hash);
   if (options.hash && options.hash['button']) {
