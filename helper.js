@@ -234,6 +234,25 @@ UI.registerHelper('check_box', function(field, options) {
   }
 });
 
+UI.registerHelper('file_field', function(){
+  if (Package['uploader']) {
+    this.settings = {
+      name: this.field,
+      onUpload: function(error, result) {
+        if (result) {
+          $('input[name="'+ this.name +'Url"').val(result.url)
+          $('input[name="'+ this.name +'OriginalFileName"').val(result.originalFileName)
+          Session.set(this.name + 'OriginalFileName', result.originalFileName)
+          Session.set(this.name + 'Url', result.url)
+        } else {
+          console.log(error)
+        }
+      }
+    }
+    return Template['simpleFormFileField']
+  }
+});
+
 UI.registerHelper('submit_button', function(text, options){
   var _this = this;
   if (!text && !options) {

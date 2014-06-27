@@ -1,0 +1,9 @@
+<template name="simpleFormFileField">
+{{#if file}}
+  {{originalFileName}} <a href="{{file}}" class="remove"> <i class="fa fa-trash-o"></i></a>
+{{else}}
+  {{> uploader settings=settings}}
+  <input type="hidden" class="simpleFormFile" name="{{settings.name}}Url">
+  <input type="hidden" class="simpleFormFile" name="{{settings.name}}OriginalFileName">
+{{/if}}
+</template>
