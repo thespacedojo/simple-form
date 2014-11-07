@@ -235,7 +235,7 @@ UI.registerHelper('check_box', function(field, options) {
 });
 
 UI.registerHelper('file_field', function(){
-  if (Package['uploader']) {
+  if (Package['schnie:uploader']) {
     this.settings = {
       name: this.field,
       onUpload: function(error, result) {
